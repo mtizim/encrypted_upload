@@ -77,11 +77,9 @@ async fn save_file(file_dir: &Path, mut payload: Multipart, key: &String) -> Res
         let enc_filename: Vec<u8> = cipher
             .encrypt(nonce_filename, filename.as_ref())
             .or(Err(()))?;
-        let enc_filename = base64::encode(enc_filename);
-
+        let enc_filename = base64::encode_config(enc_filename,base64::URL_SAFE);
         let mut filepath = PathBuf::from(file_dir);
         filepath.push(&enc_filename);
-
         let mut f = web::block(|| {
             OpenOptions::new()
                 .create_new(true)
