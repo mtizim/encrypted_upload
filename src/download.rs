@@ -78,7 +78,7 @@ async fn decode_file(filepath: &Path, key: &String) -> Result<DecodedFile, ()> {
     let filename = filepath.file_name().ok_or(())?;
     let filename: OsString = filename.into();
     let filename = filename.into_string().or(Err(()))?;
-    dbg!(&filename);
+    let filename = base64::decode(filename).or(Err(()))?;
     let dec_filename = String::from_utf8({
         let x = cipher
             .decrypt(nonce_filename, filename.as_ref())
