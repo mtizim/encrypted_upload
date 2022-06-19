@@ -25,7 +25,7 @@ use crate::config::AppConfig;
 // ! The file is limited to be in-memory
 // ! The error code should be more descriptive
 // ! A filename collision is possible and could be avoided
-#[post("/")]
+#[post("/files")]
 pub async fn upload(config: web::Data<AppConfig>, payload: Multipart) -> impl Responder {
     let file_dir = &config.file_dir;
     // could be more secure ofc, but isn't because constraints

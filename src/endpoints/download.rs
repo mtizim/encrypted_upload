@@ -1,4 +1,9 @@
-use std::{ffi::OsString, fs::OpenOptions, io::Read, path::Path};
+use std::{
+    ffi::OsString,
+    fs::{self, OpenOptions},
+    io::Read,
+    path::Path,
+};
 
 use actix_web::{
     get,
@@ -38,7 +43,6 @@ pub async fn download(
         return HttpResponse::NotFound().finish();
     }
     let decoded_file = decoded_file.unwrap();
-    dbg!("vend");
     HttpResponse::Ok()
         .content_type("application/octet-stream")
         .append_header(ContentDisposition {
@@ -83,14 +87,16 @@ async fn decode_file(filepath: &Path, key: &String) -> Result<DecodedFile, ()> {
         let x = cipher
             .decrypt(nonce_filename, filename.as_ref())
             .or(Err(()));
-        dbg!(&x);
         x
     }?)
     .or(Err(()))?;
-    dbg!("dec fname");
     let dec_filedata = cipher.decrypt(nonce, file_data.as_ref()).or(Err(()))?;
-    dbg!("dec fdata");
     let dec_filedata = Bytes::from_iter(dec_filedata);
+
+    #[allow(unused_must_use)]
+    {
+        fs::remove_file(filepath);
+    }
 
     Ok(DecodedFile {
         filename: dec_filename,

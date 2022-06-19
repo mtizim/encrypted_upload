@@ -1,29 +1,12 @@
-use actix_web::{get, middleware::Logger, web, App, HttpResponse, HttpServer};
-use content_length_middleware::ContentLengthLimit;
+use actix_web::{middleware::Logger, web, App, HttpServer};
+use endpoints::{download::download, upload::upload};
+use util::content_length_middleware::ContentLengthLimit;
 
 use crate::config::AppConfig;
 
 mod config;
-mod download;
-mod upload;
-
-mod content_length_middleware;
-
-// TODO remove this
-#[get("/")]
-async fn index() -> HttpResponse {
-    let html = r#"<html>
-        <head><title>Upload Test</title></head>
-        <body>
-            <form target="/files" method="post" enctype="multipart/form-data">
-                <input type="file" name="file"/>
-                <button type="submit">Submit</button>
-            </form>
-        </body>
-    </html>"#;
-
-    HttpResponse::Ok().body(html)
-}
+mod endpoints;
+mod util;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -43,9 +26,8 @@ async fn main() -> std::io::Result<()> {
             .service(
                 web::scope("")
                     .wrap(ContentLengthLimit::new(config.max_file_size))
-                    .service(download::download)
-                    .service(upload::upload)
-                    .service(index),
+                    .service(download)
+                    .service(upload),
             )
             .app_data(web::Data::new(config))
     })
