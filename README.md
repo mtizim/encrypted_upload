@@ -34,8 +34,8 @@ Aside from implementing the things listed above, these would be nice to have:
 - setting a lifespan of the file during upload  (# of downloads, days till removal)
 - proper logging
 
-### adressing Bonus points
-- A proper dbo would be overkill, the filesystem is good at handling single access file read/writes and storing files with their filenames.
+### adressing bonus points
+- A proper db would be overkill, as the filesystem is good at handling single access file read/writes and storing files with their filenames.
 - I wanted to just generate a client with OpenAPI, but realized halfway through that actix doesn't generate that for free.
 
 I ran out of (personal) time for unit tests, but the functionality should be easily testable by running
