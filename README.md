@@ -34,7 +34,7 @@ Aside from implementing the things listed above, these would be nice to have:
 - setting a lifespan of the file during upload  (# of downloads, days till removal)
 - proper logging
 
-### adressing bonus points
+### Addressing bonus points
 - A proper db would be overkill, as the filesystem is good at handling single access file read/writes and storing files with their filenames.
 - I wanted to just generate a client with OpenAPI, but realized halfway through that actix doesn't generate that for free.
 
@@ -48,8 +48,8 @@ Followed by running (with substitution using keys from the previous command):
 curl "localhost:8080/files/{filename}?key={key}" > a
 ```
 
-and then `diff a Cargo.toml`. Note that the original filename is not lost, but I don't know how to get it from curl nicely.
+and then `diff a Cargo.toml`. Note that the original filename is not lost, but I don't know how to get it from curl programatically.
 
-### Running
+### Running the code
 Build the Dockerfile `docker build .` and launch the image with `docker run -p 8080:8080 imageID`, or `cargo run -r` in the directory.
 
