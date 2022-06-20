@@ -32,7 +32,7 @@ There's also some caveats that I've ignored due to time constraints:
 Aside from implementing the things listed above, these would be nice to have:
 - a basic web interface
 - setting a lifespan of the file during upload  (# of downloads, days till removal)
-
+- proper logging
 
 ### adressing Bonus points
 - A proper dbo would be overkill, the filesystem is good at handling single access file read/writes and storing files with their filenames.
@@ -49,3 +49,7 @@ curl "localhost:8080/files/{filename}?key={key}" > a
 ```
 
 and then `diff a Cargo.toml`. Note that the original filename is not lost, but I don't know how to get it from curl nicely.
+
+### Running
+Build the Dockerfile `docker build .` and launch the image with `docker run -p 8080:8080 imageID`, or `cargo run -r` in the directory.
+
